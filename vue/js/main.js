@@ -7,22 +7,6 @@ Vue.component('product', {
     },
     template: `
    <div class="product">
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <link rel="stylesheet" href="css/main.css">
-
-    <script defer src="js/vue.js"></script>
-    <script defer src="js/main.js"></script>
-
-    <title>Product App</title>
-</head>
-<body>
 
 <div id="app">
     <div class="product">
@@ -39,18 +23,14 @@ Vue.component('product', {
                 <p :disabled="!OutofStock" :class="{ OutofStock: !OutofStock }" v-else="inStock">Out Of Stock</p>
             </div>
 
-            <div>
-                <ul>
-                    <li v-for="detail in details">{{ detail }}</li>
-                </ul>
-            </div>
-
             <div class="color-box"
                  v-for="(variant, index) in variants"
                  :key="variant.variantId"
                  :style="{ backgroundColor:variant.variantColor }"
                  @mouseover="updateProduct(index)">
             </div>
+            
+            <product-details></product-details>
 
             <div>
                 <ul>
@@ -58,8 +38,8 @@ Vue.component('product', {
                 </ul>
             </div>
             
-            <p>User is premium: {{ premium }}</p>
-
+            <p>Shipping: {{ shipping }}</p>
+            
             <div class="cart">
                 <p>Cart({{ cart }})</p>
                 <div>
@@ -73,9 +53,6 @@ Vue.component('product', {
         </div>
     </div>
 </div>
-
-</body>
-</html>
    </div>
  `,
 
@@ -88,7 +65,6 @@ Vue.component('product', {
             link: "https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=socks",
             inventory: 100,
             sale: "On Sale!",
-            details: ['80% cotton', '20% polyester', 'Gender-neutral'],
             variants: [
                 {
                     variantId: 2234,
@@ -135,6 +111,29 @@ Vue.component('product', {
                 return this.sale
             }
             else return " "
+        },shipping() {
+            if (this.premium) {
+                return "Free";
+            } else {
+                return 2.99
+            }
+        },
+
+    }
+})
+
+Vue.component('product-details', {
+    template: `
+        <div>
+            <ul>
+                <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+        </div>
+ `,
+
+    data() {
+        return {
+            details: ['80% cotton', '20% polyester', 'Gender-neutral'],
         }
     }
 })
@@ -145,4 +144,3 @@ let app = new Vue({
         premium: true
     }
 })
-
