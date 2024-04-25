@@ -1,4 +1,10 @@
 Vue.component('product', {
+    props: {
+        premium: {
+            type: Boolean,
+            required: true
+        }
+    },
     template: `
    <div class="product">
 <!doctype html>
@@ -51,6 +57,8 @@ Vue.component('product', {
                     <li v-for="size in sizes">{{ size }}</li>
                 </ul>
             </div>
+            
+            <p>User is premium: {{ premium }}</p>
 
             <div class="cart">
                 <p>Cart({{ cart }})</p>
@@ -133,4 +141,8 @@ Vue.component('product', {
 
 let app = new Vue({
     el: '#app',
+    data: {
+        premium: true
+    }
 })
+
