@@ -43,33 +43,7 @@ Vue.component('product', {
                 <button class="reducefromcart" v-on:click="delFromCart">Reduce from cart</button>
             </div>
         </div>
-        <form class="review-form" @submit.prevent="onSubmit">
-             <p>
-               <label for="name">Name:</label>
-               <input id="name" v-model="name" placeholder="name">
-             </p>
-            
-             <p>
-               <label for="review">Review:</label>
-               <textarea id="review" v-model="review"></textarea>
-             </p>
-            
-             <p>
-               <label for="rating">Rating:</label>
-               <select id="rating" v-model.number="rating">
-                 <option>5</option>
-                 <option>4</option>
-                 <option>3</option>
-                 <option>2</option>
-                 <option>1</option>
-               </select>
-             </p>
-            
-             <p>
-               <input type="submit" value="Submit"> 
-             </p>
-        </form>
-
+        <product-review @review-submitted="addReview"></product-review>        
     </div>
  `,
 
@@ -100,6 +74,7 @@ Vue.component('product', {
                     variantQuantity: 0
                 }
             ],
+            reviews: [],
             sizes: ['S', 'M', 'L', 'XL', 'XXL', 'XXXL'],
         }
     },
@@ -115,7 +90,11 @@ Vue.component('product', {
         updateProduct(index) {
             this.selectedVariant = index;
             console.log(index);
+        },
+        addReview(productReview) {
+            this.reviews.push(productReview)
         }
+
     },
     computed: {
         title() {
@@ -161,12 +140,41 @@ Vue.component('product-details', {
 
 Vue.component('product-review', {
     template: `
-    <input v-model="name"> `,
+    <form class="review-form" @submit.prevent="onSubmit">
+ <p>
+   <label for="name">Name:</label>
+   <input id="name" v-model="name" placeholder="name">
+ </p>
+
+ <p>
+   <label for="review">Review:</label>
+   <textarea id="review" v-model="review"></textarea>
+ </p>
+
+ <p>
+   <label for="rating">Rating:</label>
+   <select id="rating" v-model.number="rating">
+     <option>5</option>
+     <option>4</option>
+     <option>3</option>
+     <option>2</option>
+     <option>1</option>
+   </select>
+ </p>
+
+ <p>
+   <input type="submit" value="Submit"> 
+ </p>
+
+</form>
+ `,
     data() {
         return {
-            name: null
+            name: null,
+            review: null,
+            rating: null
         }
-    },
+        },
     methods:{
         onSubmit() {
             let productReview = {
@@ -180,6 +188,7 @@ Vue.component('product-review', {
             this.rating = null
         }
     }
+
 })
 
 
