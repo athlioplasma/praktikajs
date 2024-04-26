@@ -16,7 +16,8 @@ Vue.component('product', {
             <a :href="link">More products like this</a>
             <div>
                 <p v-if="inStock">In Stock</p>
-                <p :disabled="!OutofStock" :class="{ OutofStock: !OutofStock }" v-else="inStock">Out Of Stock</p>
+                <p v-else :class="{ disabledStock: !inStock }" class="OutofStock">Out of Stock</p>
+                <p v-else>Out of Stock</p>
             </div>
 
             <div class="color-box"
@@ -43,7 +44,18 @@ Vue.component('product', {
                 <button class="reducefromcart" v-on:click="delFromCart">Reduce from cart</button>
             </div>
         </div>
-        <product-review @review-submitted="addReview"></product-review>        
+        <div>
+            <h2>Reviews</h2>
+            <p v-if="!reviews.length">There are no reviews yet.</p>
+            <ul>
+                <li v-for="review in reviews">
+                <p>{{ review.name }}</p>
+                <p>Rating: {{ review.rating }}</p>
+                <p>{{ review.review }}</p>
+                </li>
+            </ul>
+        </div>
+        <product-review @review-submitted="addReview"></product-review>
     </div>
  `,
 
